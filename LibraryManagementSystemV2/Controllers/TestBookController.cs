@@ -3,6 +3,7 @@ using LibraryManagementSystemV2.DTOs.NewFolder1;
 using LibraryManagementSystemV2.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
+using Serilog; 
 
 namespace LibraryManagementSystemV2.Controllers
 {
@@ -22,6 +23,7 @@ namespace LibraryManagementSystemV2.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<BookShowDTO>>> GetAllBooks()
         {
+            Log.Information("Getting all books.");            
             var books = await _service.GetAllAsync();
             return Ok(books);
         }

@@ -5,6 +5,8 @@ using System.Data.Common;
 using LibraryManagementSystemV2.Services;
 using LibraryManagementSystemV2.Mappings;
 using LibraryManagementSystemV2.Repositories;
+using Serilog;
+
 
 var builder = WebApplication.CreateBuilder(args);
 var databaseName = "LibraryManagmentSystem";
@@ -19,6 +21,7 @@ builder.Services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 //// Generic Services
 builder.Services.AddScoped(typeof(IReadService<,>), typeof(ReadService<,>));
 builder.Services.AddScoped(typeof(IGenericService<,,,>), typeof(GenericService<,,,>));
+
 
 //////////////////////////////////// Services ////////////////////////////////////
 
@@ -64,10 +67,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.Console()
+    .CreateLogger();
+
+try
+{
+    Log.Information("Starting application ..."); 
+    await app.RunAsync();
+}
+catch (Exception exception)
+{
+    Log.Fatal(exception.ToString());
+}
+finally
+{
+    await Log.CloseAndFlushAsync();
+
+}
