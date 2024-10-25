@@ -12,6 +12,12 @@ namespace LibraryManagementSystemV2.Repositories
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> where = null, bool tracked = true, params Expression<Func<T, object>>[] includes);
         Task UpdateAsync(T entity);
         Task DeleteByIdAsync(long id);
+
+        void DeleteRange(IEnumerable<T> toRemove);
         Task SaveAsync();
+
+        void SetEntryStateToModified(T entry);
+
+        bool Exists(Expression<Func<T, bool>> expression = null);
     }
 }

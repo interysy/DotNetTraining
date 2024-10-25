@@ -28,17 +28,19 @@ namespace LibraryManagementSystemV2.Services
             return _mapper.Map<TShowDto>(dto);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(long id)
         {
             await _unitOfWork.Repository<TEntity>().DeleteByIdAsync(id);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(TCreateDto dto)
+        public async Task<TShowDto> UpdateAsync(long id, TUpdateDto dto)
         {
             var entity = _mapper.Map<TEntity>(dto);
             await _unitOfWork.Repository<TEntity>().UpdateAsync(entity);
             await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<TShowDto>(entity); 
         }
     }
 }

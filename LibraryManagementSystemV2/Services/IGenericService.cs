@@ -11,7 +11,7 @@ namespace LibraryManagementSystemV2.Services
 
     {
         Task<TShowDto> AddAsync(TCreateDto dto);
-        Task DeleteAsync(int id);
-        Task UpdateAsync(TCreateDto dto);
+        Task DeleteAsync(long id);
+        Task<TShowDto> UpdateAsync(long id, TUpdateDto dto);
     }
 }

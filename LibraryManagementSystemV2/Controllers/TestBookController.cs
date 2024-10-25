@@ -56,5 +56,36 @@ namespace LibraryManagementSystemV2.Controllers
             return Ok(bookShowDTO);
 
         }
+
+
+        [HttpPut("UpdateBook")]
+        public async Task<ActionResult<BookShowDTO>> PutBook(long id, BookUpdateDTO bookDTO)
+        {
+            try
+            {
+                await _service.UpdateAsync(id, bookDTO);
+                return NoContent();
+            }
+            catch (BookNotFoundException exception) {
+                return NotFound(exception.Message);
+
+            }
+        }
+
+
+        [HttpDelete("DeleteBook")]
+        public async Task<ActionResult<BookShowDTO>> DeleteBook(long id)
+        {
+            try
+            {
+                await _service.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (BookNotFoundException exception)
+            {
+                return NotFound(exception.Message);
+
+            }
+        }
     }
 }

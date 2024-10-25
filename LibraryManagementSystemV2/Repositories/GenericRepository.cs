@@ -1,4 +1,5 @@
 ﻿using LibraryManagementSystemV2.Contexts;
+using LibraryManagementSystemV2.DTOs.NewFolder1;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq.Expressions;
@@ -94,5 +95,21 @@ namespace LibraryManagementSystemV2.Repositories
         {
             await _context.SaveChangesAsync();
         }
+
+        public void SetEntryStateToModified(T entry)
+        {
+             _context.Entry(entry).State = EntityState.Modified;
+        }
+
+        public void DeleteRange(IEnumerable<T> toRemove)
+        {
+            _context.RemoveRange(toRemove);
+        }
+
+        public bool Exists(Expression<Func<T, bool>> expression = null) {
+            return _dbSet.Any<T>(expression);
+        }
+
+        
     }
 }

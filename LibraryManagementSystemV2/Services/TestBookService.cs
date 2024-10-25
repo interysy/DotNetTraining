@@ -90,68 +90,72 @@ namespace LibraryManagementSystemV2.Services
             }
         }
 
+        public async Task<BookShowDTO> UpdateAsync(long id, BookUpdateDTO dto)
+        {
 
-        //public new async Task UpdateAsync(long id, BookUpdateDTO dto) {
+            if (!_unitOfWork.Repository<Book>().Exists(book => book.Id == id))  
+            {
+                throw new BookNotFoundException($"Book with id of {id} cannot be found.");
+            }
 
-        //    Book? book = await _unitOfWork.Repository<Book>().GetByIdAsync(id); 
+            var transaction = await _unitOfWork.StartTransactionAsync();
 
-        //    if (book is null)
-        //    {
-        //        throw new BookNotFoundException($"Book with id of {id} cannot be found.");
-        //    }
+            using (transaction)
+            {
+                try
+                {
+                    Book bookUpdated = BookUpdateDTO.BookUpdateDTOToBook(dto, id);
+                    _unitOfWork.Repository<Book>().SetEntryStateToModified(bookUpdated);
 
-        //    var transaction = await _unitOfWork.StartTransactionAsync(); 
+                    IEnumerable<AuthorBook> bookAuthors = await _unitOfWork.Repository<AuthorBook>().GetAllAsync(authorBook => authorBook.BookId == id,
+                                                                                                                 true,
+                                                                                                                 authorBook => authorBook.Author
+                                                                                                                 );
 
-        //    using (transaction)
-        //    {
-        //        try
-        //        {
-        //            Book bookUpdated = BookUpdateDTO.BookUpdateDTOToBook(dto, id);
-        //            _unitOfWork.Repository<Book>().Entry(bookUpdated).State = EntityState.Modified;
-
-
-        //            IEnumerable<AuthorBook> bookAuthors = _context.AuthorBooks.Where(authorBook => authorBook.BookId == id).Include(authorBook => authorBook.Author).Include(authorBook => authorBook.Book);
-        //            IEnumerable<AuthorBook> bookAuthorsToRemove = bookAuthors.Where(authorBook => !bookDTO.AuthorIDs.Contains(authorBook.AuthorId));
-        //            IEnumerable<long> bookAuthorIdsToAdd = bookDTO.AuthorIDs.Where(authorId => !bookAuthors.Select(bookAuthor => bookAuthor.AuthorId).Contains(authorId));
-
-
-        //            _context.AuthorBooks.RemoveRange(bookAuthorsToRemove);
+                    IEnumerable<AuthorBook> bookAuthorsToRemove = bookAuthors.Where(authorBook => !dto.AuthorIDs.Contains(authorBook.AuthorId));
+                    IEnumerable<long> bookAuthorIdsToAdd = dto.AuthorIDs.Where(authorId => !bookAuthors.Select(bookAuthor => bookAuthor.AuthorId).Contains(authorId));
 
 
-        //            foreach (var authorId in bookAuthorIdsToAdd)
-        //            {
-        //                var author = _context.Authors.Find(authorId);
-        //                if (author == null)
-        //                {
-        //                    return NotFound($"Author with ID {authorId} not found.");
-        //                }
-
-        //                AuthorBook authorBook = AuthorBook.AuthorAndBookToAuthorBook(author, bookUpdated);
-        //                _context.AuthorBooks.Add(authorBook);
-        //            }
-
-        //            if (bookDTO.NewAuthors == null)
-        //            {
-        //                _context.SaveChanges();
-        //                return NoContent();
-        //            }
+                    _unitOfWork.Repository<AuthorBook>().DeleteRange(bookAuthorsToRemove); 
 
 
-        //            _bookAuthorService.CreateAuthorsForBookFromCreateDTO(bookDTO.NewAuthors, bookUpdated);
+
+                    foreach (var authorId in bookAuthorIdsToAdd)
+                    {
+                        var author = await _unitOfWork.Repository<Author>().GetByIdAsync(authorId);  
+                            
+                        if (author == null)
+                        {
+                            throw new BookNotFoundException($"Author with ID {authorId} not found.");
+                        }
+
+                        AuthorBook authorBook = AuthorBook.AuthorAndBookToAuthorBook(author, bookUpdated);
+
+                        await _unitOfWork.Repository<AuthorBook>().AddAsync(authorBook); 
+                    }
+
+                    if (dto.NewAuthors is null)
+                    {
+                        await _unitOfWork.SaveChangesAsync(); 
+                        
+                    }
 
 
-        //            _context.SaveChanges();
-        //            transaction.Commit();
+                    _bookAuthorService.CreateAuthorsForBookFromCreateDTO(dto.NewAuthors, bookUpdated);
 
 
-        //            return NoContent();
-        //        }
-        //        catch
-        //        {
-        //            transaction.Rollback();
-        //            throw;
-        //        }
-        //    }
-        //}
+
+                    await _unitOfWork.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    return await GetByIdAsync(bookUpdated.Id);
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+        }
     }
 }
