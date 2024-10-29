@@ -143,11 +143,21 @@ namespace LibraryManagementSystemV2.Services
                     {
                         await _unitOfWork.SaveChangesAsync(); 
                         
+                    } 
+
+
+                    foreach (var newAuthor in dto.NewAuthors)
+                    {
+                        Entity entity = Entity.CreateEntity(newAuthor.Entity.FirstName, newAuthor.Entity.LastName); 
+                        await _unitOfWork.Repository<Entity>().AddAsync(entity);
+
+
+                        Author author = Author.CreateAuthorFromEntity(entity);
+                        await _unitOfWork.Repository<Author>().AddAsync(author);
+
+                        AuthorBook authorBook = AuthorBook.AuthorAndBookToAuthorBook(author, bookUpdated);
+                        await _unitOfWork.Repository<AuthorBook>().AddAsync(authorBook);
                     }
-
-
-                    //_bookAuthorService.CreateAuthorsForBookFromCreateDTO(dto.NewAuthors, bookUpdated); 
-
 
 
                     await _unitOfWork.SaveChangesAsync();
