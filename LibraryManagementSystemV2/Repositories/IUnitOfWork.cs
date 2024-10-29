@@ -8,5 +8,9 @@ namespace LibraryManagementSystemV2.Repositories
         IGenericRepository<T> Repository<T>() where T : class;
 
         Task<IDbContextTransaction> StartTransactionAsync();
+
+        AuthorBookRepository AuthorBookRepository();
+
+        RentalRepository RentalRepository();
     }
 }

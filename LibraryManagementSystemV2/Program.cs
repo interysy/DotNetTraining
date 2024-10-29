@@ -29,6 +29,7 @@ builder.Services.AddScoped(typeof(IGenericService<,,,>), typeof(GenericService<,
 
 
 builder.Services.AddScoped(typeof(ITestBookMapping), typeof(TestBookService));
+builder.Services.AddScoped(typeof(ITestRentalMapping), typeof(TestRentalService));
 
 builder.Services.AddScoped<IBookAuthorService, BookAuthorsService>(); 
 builder.Services.AddScoped<IBookService, BookService>();

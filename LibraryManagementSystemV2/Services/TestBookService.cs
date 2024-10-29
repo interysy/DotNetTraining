@@ -1,22 +1,24 @@
 ﻿using AutoMapper;
+using LibraryManagementSystemV2.Contexts;
+using LibraryManagementSystemV2.CustomExceptions.Authors;
 using LibraryManagementSystemV2.CustomExceptions.Books;
-using LibraryManagementSystemV2.DTOs;
+using LibraryManagementSystemV2.DTOs.LibraryStatisticsDTOs;
 using LibraryManagementSystemV2.DTOs.NewFolder1;
+using LibraryManagementSystemV2.DTOs.RentalDTOs;
+using LibraryManagementSystemV2.DTOs.RenterDTOs;
 using LibraryManagementSystemV2.Models;
 using LibraryManagementSystemV2.Repositories;
+using LibraryManagementSystemV2.Services.GenericServiceMappings;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
-using System.Transactions;
+using System.Net;
+
 
 namespace LibraryManagementSystemV2.Services
 {
     public class TestBookService : GenericService<Book, BookShowDTO, BookCreateDTO, BookUpdateDTO>, ITestBookMapping
     {
-        private readonly IBookAuthorService _bookAuthorService;
-
-        public TestBookService(IUnitOfWork unitOfWork, IMapper mapper, IBookAuthorService bookAuthorsService) : base(unitOfWork, mapper)
+        public TestBookService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
-            _bookAuthorService = bookAuthorsService;
         }
 
         public new async Task<IEnumerable<BookShowDTO>> GetAllAsync()
@@ -31,8 +33,10 @@ namespace LibraryManagementSystemV2.Services
                     continue;
                 }
 
-                IEnumerable<Author> bookAuthors = await _bookAuthorService.GetBookAuthors(book.Id);
-                BookShowDTO bookShowDTO = BookShowDTO.BookToBookShowDTO(book, bookAuthors);
+                IEnumerable<AuthorBook> bookAuthors = await _unitOfWork.AuthorBookRepository().GetBookAuthors(book.Id);
+                IEnumerable<Author> authors = bookAuthors.Select(authorBook => authorBook.Author);
+
+                BookShowDTO bookShowDTO = BookShowDTO.BookToBookShowDTO(book, authors);
                 bookDTOs.Add(bookShowDTO);
             }
 
@@ -48,8 +52,9 @@ namespace LibraryManagementSystemV2.Services
                 throw new BookNotFoundException($"Book with ID {id} not found.");
             }
 
-            IEnumerable<Author> bookAuthors = (await _bookAuthorService.GetBookAuthors(book.Id));
-            BookShowDTO bookShowDTO = BookShowDTO.BookToBookShowDTO(book, bookAuthors);
+            IEnumerable<AuthorBook> bookAuthors = await _unitOfWork.AuthorBookRepository().GetBookAuthors(book.Id);
+            IEnumerable<Author> authors = bookAuthors.Select(authorBook => authorBook.Author);
+            BookShowDTO bookShowDTO = BookShowDTO.BookToBookShowDTO(book, authors);
 
             return bookShowDTO;
         }
@@ -126,7 +131,7 @@ namespace LibraryManagementSystemV2.Services
                             
                         if (author == null)
                         {
-                            throw new BookNotFoundException($"Author with ID {authorId} not found.");
+                            throw new AuthorNotFoundException($"Author with ID {authorId} not found.");
                         }
 
                         AuthorBook authorBook = AuthorBook.AuthorAndBookToAuthorBook(author, bookUpdated);
@@ -141,7 +146,7 @@ namespace LibraryManagementSystemV2.Services
                     }
 
 
-                    _bookAuthorService.CreateAuthorsForBookFromCreateDTO(dto.NewAuthors, bookUpdated);
+                    //_bookAuthorService.CreateAuthorsForBookFromCreateDTO(dto.NewAuthors, bookUpdated); 
 
 
 
@@ -157,5 +162,6 @@ namespace LibraryManagementSystemV2.Services
                 }
             }
         }
+
     }
 }

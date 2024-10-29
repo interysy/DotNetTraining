@@ -19,7 +19,10 @@ namespace LibraryManagementSystemV2.Services
 public class BookAuthorsService : IBookAuthorService
     {
 
-        private readonly SQLiteContext _libraryContext; 
+        private readonly SQLiteContext _libraryContext;
+
+
+        public BookAuthorsService() { }
 
         public BookAuthorsService(SQLiteContext libraryContext)
         {

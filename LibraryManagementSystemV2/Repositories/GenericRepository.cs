@@ -1,16 +1,18 @@
 ﻿using LibraryManagementSystemV2.Contexts;
 using LibraryManagementSystemV2.DTOs.NewFolder1;
+using LibraryManagementSystemV2.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace LibraryManagementSystemV2.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly SQLiteContext _context;
-        private readonly DbSet<T> _dbSet; 
-        public GenericRepository(SQLiteContext context)
+        protected readonly DbContext _context;
+        protected readonly DbSet<T> _dbSet; 
+        public GenericRepository(DbContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();
@@ -84,7 +86,6 @@ namespace LibraryManagementSystemV2.Repositories
             return await query.ToListAsync();
         }
 
-
         public async Task UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
@@ -110,6 +111,12 @@ namespace LibraryManagementSystemV2.Repositories
             return _dbSet.Any<T>(expression);
         }
 
-        
+        public async Task ExplicitlyLoad<TProperty>(T entity, Expression<Func<T, IEnumerable<TProperty>>> navigationPropertyPath) where TProperty : class
+        {
+            var entry = _context.Entry(entity);
+            await entry.Collection(navigationPropertyPath).LoadAsync();
+        }
+
+
     }
 }

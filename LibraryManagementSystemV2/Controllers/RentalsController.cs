@@ -26,7 +26,7 @@ namespace LibraryManagementSystemV2.Controllers
         private readonly IBookAuthorService _bookAuthorsService;
         private readonly IBookService _bookService;
         private readonly IRenterService _renterService;
-        private readonly IRentalService _rentalService;
+        private readonly IRentalService _rentalService; 
 
         public RentalsController(SQLiteContext context, IBookAuthorService bookAuthorsService, IBookService bookService, IRenterService renterService, IRentalService rentalService)
         {

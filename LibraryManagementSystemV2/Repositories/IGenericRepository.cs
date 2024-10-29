@@ -19,5 +19,7 @@ namespace LibraryManagementSystemV2.Repositories
         void SetEntryStateToModified(T entry);
 
         bool Exists(Expression<Func<T, bool>> expression = null);
+
+        Task ExplicitlyLoad<TProperty>(T entity, Expression<Func<T, IEnumerable<TProperty>>> navigationPropertyPath) where TProperty : class;
     }
 }

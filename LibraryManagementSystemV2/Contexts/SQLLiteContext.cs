@@ -9,6 +9,7 @@ namespace LibraryManagementSystemV2.Contexts
         protected readonly IConfiguration Configuration;  
         private readonly string ConnectionStringProperty = "DevDatabase";
 
+        public SQLiteContext() { }
         public SQLiteContext(IConfiguration configuration)
         {
             Configuration = configuration;
