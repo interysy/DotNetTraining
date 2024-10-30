@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibraryManagementSystemV2Tests.Mocks
 {
-    internal class TransactionMock : IDbContextTransaction, IDisposable, IAsyncDisposable
+    internal class TransactionMock : IDbContextTransaction
     {
         private bool _disposed = false;
 
@@ -25,24 +25,18 @@ namespace LibraryManagementSystemV2Tests.Mocks
             return Task.CompletedTask;
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
             {
-                if (disposing)
-                {
-                    // Free any other managed objects here.
-                }
-
-                // Free any unmanaged objects here.
                 _disposed = true;
             }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public ValueTask DisposeAsync()
@@ -56,37 +50,7 @@ namespace LibraryManagementSystemV2Tests.Mocks
             throw new NotImplementedException();
         }
 
-        public Task RollbackAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CreateSavepoint(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task CreateSavepointAsync(string name, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RollbackToSavepoint(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task RollbackToSavepointAsync(string name, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ReleaseSavepoint(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task ReleaseSavepointAsync(string name, CancellationToken cancellationToken)
+        public Task RollbackAsync(CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
