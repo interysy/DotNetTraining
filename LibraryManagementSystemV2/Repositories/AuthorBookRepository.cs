@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystemV2.Repositories
 {
-    public class AuthorBookRepository : GenericRepository<AuthorBook>
+    public class AuthorBookRepository : GenericRepository<AuthorBook>, IAuthorBookRepository
     {
         public AuthorBookRepository(DbContext context) : base(context)
         {

@@ -9,7 +9,7 @@ namespace LibraryManagementSystemV2.Repositories
 
         Task<IDbContextTransaction> StartTransactionAsync();
 
-        AuthorBookRepository AuthorBookRepository();
+        IAuthorBookRepository AuthorBookRepository();
 
         RentalRepository RentalRepository();
     }

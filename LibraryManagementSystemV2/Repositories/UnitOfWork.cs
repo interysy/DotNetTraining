@@ -29,7 +29,7 @@ namespace LibraryManagementSystemV2.Repositories
             return new GenericRepository<T>(_context);
         }
 
-        public AuthorBookRepository AuthorBookRepository()
+        public IAuthorBookRepository AuthorBookRepository()
         {
             return new AuthorBookRepository(_context);
 
