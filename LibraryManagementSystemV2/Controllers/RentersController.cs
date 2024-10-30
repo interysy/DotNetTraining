@@ -15,9 +15,9 @@ namespace LibraryManagementSystemV2.Controllers
     [ApiController]
     public class RentersController : ControllerBase
     {
-        private readonly SQLiteContext _context;
+        private readonly LibraryManagementContext _context;
 
-        public RentersController(SQLiteContext context)
+        public RentersController(LibraryManagementContext context)
         {
             _context = context;
         }

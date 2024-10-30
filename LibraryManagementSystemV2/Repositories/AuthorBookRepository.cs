@@ -6,7 +6,7 @@ namespace LibraryManagementSystemV2.Repositories
 {
     public class AuthorBookRepository : GenericRepository<AuthorBook>, IAuthorBookRepository
     {
-        public AuthorBookRepository(SQLiteContext context) : base(context)
+        public AuthorBookRepository(LibraryManagementContext context) : base(context)
         {
         }  
 

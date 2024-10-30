@@ -15,8 +15,8 @@ namespace LibraryManagementSystemV2.Services
     public class RentalService : IRentalService
     {
 
-        private readonly SQLiteContext _context;
-        public RentalService(SQLiteContext context)
+        private readonly LibraryManagementContext _context;
+        public RentalService(LibraryManagementContext context)
         {
             _context = context;
         }

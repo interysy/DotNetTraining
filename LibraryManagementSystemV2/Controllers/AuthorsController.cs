@@ -10,9 +10,9 @@ namespace LibraryManagementSystemV2.Controllers
     [ApiController]
     public class AuthorsController : ControllerBase
     {
-        private readonly SQLiteContext _context;
+        private readonly LibraryManagementContext _context;
 
-        public AuthorsController(SQLiteContext context)
+        public AuthorsController(LibraryManagementContext context)
         {
             _context = context;
         }

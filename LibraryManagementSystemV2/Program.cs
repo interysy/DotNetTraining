@@ -17,7 +17,6 @@ using LibraryManagementSystemV2.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 var databaseName = "LibraryManagmentSystem";
- 
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -43,7 +42,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
 //builder.Services.AddDbContext<LibraryManagementContext>();
-builder.Services.AddDbContext<SQLiteContext>();
+builder.Services.AddDbContext<LibraryManagementContext>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -71,7 +70,7 @@ app.MapControllers();
 
 try
 {
-    Log.Information("Starting application ..."); 
+    Log.Information("Starting application ...");
     await app.RunAsync();
     Log.Information("App started ...");
 }

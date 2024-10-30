@@ -7,9 +7,9 @@ namespace LibraryManagementSystemV2.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly SQLiteContext _context;
+        private readonly LibraryManagementContext _context;
 
-        public UnitOfWork(SQLiteContext context)
+        public UnitOfWork(LibraryManagementContext context)
         {
             _context = context;
         }

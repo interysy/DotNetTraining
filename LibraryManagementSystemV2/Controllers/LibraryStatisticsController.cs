@@ -14,11 +14,11 @@ namespace LibraryManagementSystemV2.Controllers
     public class LibraryStatisticsController : ControllerBase
     {
 
-        private readonly SQLiteContext _context;
+        private readonly LibraryManagementContext _context;
         private readonly IBookAuthorService _bookAuthorsService;
         private readonly IRentalService _rentalService; 
 
-        public LibraryStatisticsController(SQLiteContext context, IBookAuthorService bookAuthorsService, IRentalService rentalService)
+        public LibraryStatisticsController(LibraryManagementContext context, IBookAuthorService bookAuthorsService, IRentalService rentalService)
         {
             _context = context;
             _bookAuthorsService = bookAuthorsService;

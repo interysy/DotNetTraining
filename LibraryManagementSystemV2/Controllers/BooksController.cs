@@ -21,11 +21,11 @@ namespace LibraryManagementSystemV2.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly SQLiteContext _context;
+        private readonly LibraryManagementContext _context;
         private readonly IBookAuthorService _bookAuthorService;
         private readonly IAuthorService _authorService;
 
-        public BooksController(SQLiteContext context, IBookAuthorService bookAuthorService, IAuthorService authorService)
+        public BooksController(LibraryManagementContext context, IBookAuthorService bookAuthorService, IAuthorService authorService)
         {
             _context = context; 
             _bookAuthorService = bookAuthorService;

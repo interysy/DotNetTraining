@@ -8,7 +8,7 @@ namespace LibraryManagementSystemV2.Repositories
 {
     public class RentalRepository : GenericRepository<Rental>
     {
-        public RentalRepository(SQLiteContext context) : base(context)
+        public RentalRepository(LibraryManagementContext context) : base(context)
         {
         }
 

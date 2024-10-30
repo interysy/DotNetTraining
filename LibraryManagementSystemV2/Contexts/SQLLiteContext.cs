@@ -1,25 +1,27 @@
 ﻿using LibraryManagementSystemV2.Models;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace LibraryManagementSystemV2.Contexts
 {
-    public class SQLiteContext : DbContext
+    public class LibraryManagementContext : DbContext
     {
 
         protected readonly IConfiguration Configuration;  
-        private readonly string ConnectionStringProperty = "DevDatabase";
+        private readonly string ConnectionStringProperty = "ConnectionString:DevDatabase";
 
-        public SQLiteContext() { }
-        public SQLiteContext(IConfiguration configuration)
-        {
+        public LibraryManagementContext() { }
+        public LibraryManagementContext(IConfiguration configuration)
+        { 
+
             Configuration = configuration;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite(Configuration.GetConnectionString(ConnectionStringProperty));
+            { 
+                optionsBuilder.UseSqlite(Configuration[ConnectionStringProperty]);
             }
         }
 

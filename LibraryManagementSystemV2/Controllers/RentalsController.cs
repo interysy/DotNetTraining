@@ -22,13 +22,13 @@ namespace LibraryManagementSystemV2.Controllers
     [ApiController]
     public class RentalsController : ControllerBase
     {
-        private readonly SQLiteContext _context;
+        private readonly LibraryManagementContext _context;
         private readonly IBookAuthorService _bookAuthorsService;
         private readonly IBookService _bookService;
         private readonly IRenterService _renterService;
         private readonly IRentalService _rentalService; 
 
-        public RentalsController(SQLiteContext context, IBookAuthorService bookAuthorsService, IBookService bookService, IRenterService renterService, IRentalService rentalService)
+        public RentalsController(LibraryManagementContext context, IBookAuthorService bookAuthorsService, IBookService bookService, IRenterService renterService, IRentalService rentalService)
         {
             _context = context;
             _bookAuthorsService = bookAuthorsService;

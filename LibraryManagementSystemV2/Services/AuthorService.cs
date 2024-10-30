@@ -14,8 +14,8 @@ namespace LibraryManagementSystemV2.Services
 
     public class AuthorService : IAuthorService
     {
-        SQLiteContext _context;
-        public AuthorService(SQLiteContext context)  
+        LibraryManagementContext _context;
+        public AuthorService(LibraryManagementContext context)  
         {
             _context = context;
         }

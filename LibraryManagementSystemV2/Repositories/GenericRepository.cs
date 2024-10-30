@@ -10,9 +10,9 @@ namespace LibraryManagementSystemV2.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly SQLiteContext _context;
+        protected readonly LibraryManagementContext _context;
         protected readonly DbSet<T> _dbSet; 
-        public GenericRepository(SQLiteContext context)
+        public GenericRepository(LibraryManagementContext context)
         {
             _context = context;
             _dbSet = context.Set<T>();

@@ -12,8 +12,8 @@ namespace LibraryManagementSystemV2.Services
     public class BookService : IBookService
     {
 
-        private readonly SQLiteContext _bookContext;
-        public BookService(SQLiteContext bookContext)
+        private readonly LibraryManagementContext _bookContext;
+        public BookService(LibraryManagementContext bookContext)
         {
             _bookContext = bookContext;
         }

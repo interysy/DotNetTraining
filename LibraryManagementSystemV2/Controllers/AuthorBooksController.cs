@@ -10,10 +10,10 @@ namespace LibraryManagementSystemV2.Controllers
     [ApiController]
     public class AuthorBooksController : ControllerBase
     {
-        private readonly SQLiteContext _context; 
+        private readonly LibraryManagementContext _context; 
         private readonly IBookAuthorService _bookAuthorService;
 
-        public AuthorBooksController(SQLiteContext context, IBookAuthorService bookAuthorService)
+        public AuthorBooksController(LibraryManagementContext context, IBookAuthorService bookAuthorService)
         {
             _context = context; 
             _bookAuthorService = bookAuthorService;

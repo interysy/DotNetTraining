@@ -16,9 +16,9 @@ namespace LibraryManagementSystemV2.Controllers
     [ApiController]
     public class EntitiesController : ControllerBase
     {
-        private readonly SQLiteContext _context;
+        private readonly LibraryManagementContext _context;
 
-        public EntitiesController(SQLiteContext context)
+        public EntitiesController(LibraryManagementContext context)
         {
             _context = context;
         }
