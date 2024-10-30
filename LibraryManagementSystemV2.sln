@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystemV2", "LibraryManagementSystemV2\LibraryManagementSystemV2.csproj", "{3F4E0494-2F56-40F0-8894-63114975A345}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystemV2Tests", "LibraryManagementSystemV2Tests\LibraryManagementSystemV2Tests.csproj", "{DEAD11A0-3AF6-42BB-9A17-0355A4A86742}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryManagementSystemV2UnitTests", "LibraryManagementSystemV2Tests\LibraryManagementSystemV2UnitTests.csproj", "{DEAD11A0-3AF6-42BB-9A17-0355A4A86742}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryManagementSystemV2IntegrationTests", "LibraryManagementSystemV2IntegrationTests\LibraryManagementSystemV2IntegrationTests.csproj", "{46FE5D08-D495-4FEF-BA04-8F27D5F3BF42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DEAD11A0-3AF6-42BB-9A17-0355A4A86742}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEAD11A0-3AF6-42BB-9A17-0355A4A86742}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEAD11A0-3AF6-42BB-9A17-0355A4A86742}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46FE5D08-D495-4FEF-BA04-8F27D5F3BF42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46FE5D08-D495-4FEF-BA04-8F27D5F3BF42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46FE5D08-D495-4FEF-BA04-8F27D5F3BF42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46FE5D08-D495-4FEF-BA04-8F27D5F3BF42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

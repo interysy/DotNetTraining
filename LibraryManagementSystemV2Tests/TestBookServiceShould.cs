@@ -1,14 +1,9 @@
-using AutoMapper;
 using LibraryManagementSystemV2.CustomExceptions.Books;
 using LibraryManagementSystemV2.DTOs.AuthorDTOs;
 using LibraryManagementSystemV2.DTOs.EntityDTOs;
 using LibraryManagementSystemV2.DTOs.NewFolder1;
-using LibraryManagementSystemV2.Mappings;
 using LibraryManagementSystemV2.Models;
-using LibraryManagementSystemV2.Repositories;
-using LibraryManagementSystemV2.Services;
 using LibraryManagementSystemV2Tests.Fixtures;
-using LibraryManagementSystemV2Tests.Mocks;
 using Moq;
 using System.Linq.Expressions;
 
