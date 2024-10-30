@@ -7,6 +7,8 @@ using LibraryManagementSystemV2.DTOs.RenterDTOs;
 using LibraryManagementSystemV2.Models;
 using LibraryManagementSystemV2.Repositories;
 using LibraryManagementSystemV2.Services.GenericServiceMappings;
+using LibraryManagementSystemV2.Services.GenericServices;
+using LibraryManagementSystemV2.Services.Interfaces;
 using LibraryManagementSystemV2.Types;
 
 namespace LibraryManagementSystemV2.Services
@@ -108,20 +110,5 @@ namespace LibraryManagementSystemV2.Services
             return RenterWithRentalsNoRenterShowDTO.RenterWithRentalsToRenterWithRentalsShowDTO(renter, rentalShows.Count, rentalShows);
 
         } 
-
-        Task<RentalShowDTO> IGenericService<Rental, RentalShowDTO, RentalCreateWithDaysDTO, RentalCreateWithDaysDTO>.AddAsync(RentalCreateWithDaysDTO dto)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task IGenericService<Rental, RentalShowDTO, RentalCreateWithDaysDTO, RentalCreateWithDaysDTO>.DeleteAsync(long id)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<RentalShowDTO> IGenericService<Rental, RentalShowDTO, RentalCreateWithDaysDTO, RentalCreateWithDaysDTO>.UpdateAsync(long id, RentalCreateWithDaysDTO dto)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

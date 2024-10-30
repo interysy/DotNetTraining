@@ -9,6 +9,7 @@ using LibraryManagementSystemV2.DTOs.RenterDTOs;
 using LibraryManagementSystemV2.Models;
 using LibraryManagementSystemV2.Repositories;
 using LibraryManagementSystemV2.Services.GenericServiceMappings;
+using LibraryManagementSystemV2.Services.GenericServices;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 

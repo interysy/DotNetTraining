@@ -1,4 +1,4 @@
-﻿namespace LibraryManagementSystemV2.Services
+﻿namespace LibraryManagementSystemV2.Services.Interfaces
 {
     public interface IReadService<TEntity, TDto> where TEntity : class where TDto : class
     {

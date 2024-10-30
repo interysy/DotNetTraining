@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using LibraryManagementSystemV2.Repositories;
+using LibraryManagementSystemV2.Services.Interfaces;
 
-namespace LibraryManagementSystemV2.Services
+namespace LibraryManagementSystemV2.Services.GenericServices
 {
     public class ReadService<TEntity, TDto> : IReadService<TEntity, TDto>
         where TEntity : class
@@ -21,14 +22,14 @@ namespace LibraryManagementSystemV2.Services
             //{
             var result = await _unitOfWork.Repository<TEntity>().GetAllAsync();
 
-                if (result.Any())
-                {
-                    return _mapper.Map<IEnumerable<TDto>>(result);
-                }
-                else
-                {
-                    throw new Exception($"No {typeof(TDto).Name}s were found");
-                }
+            if (result.Any())
+            {
+                return _mapper.Map<IEnumerable<TDto>>(result);
+            }
+            else
+            {
+                throw new Exception($"No {typeof(TDto).Name}s were found");
+            }
 
             //}
             //catch (EntityNotFoundException ex)
@@ -43,14 +44,14 @@ namespace LibraryManagementSystemV2.Services
         {
             //try
             //{
-                var result = await _unitOfWork.Repository<TEntity>().GetByIdAsync(id);
+            var result = await _unitOfWork.Repository<TEntity>().GetByIdAsync(id);
 
-                if (result is null)
-                {
-                    throw new Exception($"Entity with ID {id} not found.");
-                }
+            if (result is null)
+            {
+                throw new Exception($"Entity with ID {id} not found.");
+            }
 
-                return _mapper.Map<TDto>(result);
+            return _mapper.Map<TDto>(result);
             //}
 
             //catch (EntityNotFoundException ex)

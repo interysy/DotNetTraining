@@ -1,11 +1,12 @@
-﻿using LibraryManagementSystemV2.Models;
+﻿using LibraryManagementSystemV2.Contexts;
+using LibraryManagementSystemV2.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystemV2.Repositories
 {
     public class AuthorBookRepository : GenericRepository<AuthorBook>, IAuthorBookRepository
     {
-        public AuthorBookRepository(DbContext context) : base(context)
+        public AuthorBookRepository(SQLiteContext context) : base(context)
         {
         }  
 

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace LibraryManagementSystemV2.Services
+namespace LibraryManagementSystemV2.Services.Interfaces
 {
     public interface IGenericService<TEntity, TShowDto, TCreateDto, TUpdateDto> : IReadService<TEntity, TShowDto>
         where TEntity : class

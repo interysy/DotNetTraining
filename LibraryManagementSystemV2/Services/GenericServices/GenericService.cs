@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Humanizer;
 using LibraryManagementSystemV2.Repositories;
+using LibraryManagementSystemV2.Services.Interfaces;
 using System.Linq.Expressions;
 
-namespace LibraryManagementSystemV2.Services
+namespace LibraryManagementSystemV2.Services.GenericServices
 {
     public class GenericService<TEntity, TShowDto, TCreateDto, TUpdateDto> : ReadService<TEntity, TShowDto>, IGenericService<TEntity, TShowDto, TCreateDto, TUpdateDto>
         where TEntity : class
@@ -40,7 +41,7 @@ namespace LibraryManagementSystemV2.Services
             await _unitOfWork.Repository<TEntity>().UpdateAsync(entity);
             await _unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<TShowDto>(entity); 
+            return _mapper.Map<TShowDto>(entity);
         }
     }
 }

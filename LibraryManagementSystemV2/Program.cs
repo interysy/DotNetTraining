@@ -11,6 +11,8 @@ using LibraryManagementSystemV2.Configuration;
 using System.Configuration;
 using Microsoft.Extensions.Hosting;
 using LibraryManagementSystemV2.Services.GenericServiceMappings;
+using LibraryManagementSystemV2.Services.GenericServices;
+using LibraryManagementSystemV2.Services.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,7 +42,7 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<LibraryManagementContext>();
+//builder.Services.AddDbContext<LibraryManagementContext>();
 builder.Services.AddDbContext<SQLiteContext>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -82,3 +84,6 @@ finally
     await Log.CloseAndFlushAsync();
 
 }
+
+
+public partial class Program { }; 
