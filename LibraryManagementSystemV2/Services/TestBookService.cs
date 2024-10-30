@@ -1,17 +1,12 @@
 ﻿using AutoMapper;
-using LibraryManagementSystemV2.Contexts;
 using LibraryManagementSystemV2.CustomExceptions.Authors;
 using LibraryManagementSystemV2.CustomExceptions.Books;
-using LibraryManagementSystemV2.DTOs.LibraryStatisticsDTOs;
 using LibraryManagementSystemV2.DTOs.NewFolder1;
-using LibraryManagementSystemV2.DTOs.RentalDTOs;
-using LibraryManagementSystemV2.DTOs.RenterDTOs;
 using LibraryManagementSystemV2.Models;
-using LibraryManagementSystemV2.Repositories;
+using LibraryManagementSystemV2.Repositories.Interfaces;
 using LibraryManagementSystemV2.Services.GenericServiceMappings;
 using LibraryManagementSystemV2.Services.GenericServices;
-using Microsoft.EntityFrameworkCore;
-using System.Net;
+
 
 
 namespace LibraryManagementSystemV2.Services
@@ -24,7 +19,7 @@ namespace LibraryManagementSystemV2.Services
 
         public new async Task<IEnumerable<BookShowDTO>> GetAllAsync()
         {
-            List<Book?> books = await _unitOfWork.Repository<Book>().GetAllAsync();
+            List<Book> books = await _unitOfWork.Repository<Book>().GetAllAsync();
             List<BookShowDTO> bookDTOs = new List<BookShowDTO>();
 
             foreach (Book? book in books)
@@ -46,7 +41,7 @@ namespace LibraryManagementSystemV2.Services
 
         public new async Task<BookShowDTO> GetByIdAsync(long id)
         {
-            Book book = await _unitOfWork.Repository<Book>().GetByIdAsync(id);
+            Book? book = await _unitOfWork.Repository<Book>().GetByIdAsync(id);
 
             if (book is null)
             {
@@ -61,13 +56,14 @@ namespace LibraryManagementSystemV2.Services
         }
 
 
-        public new async Task<BookShowDTO> AddAsync(BookCreateDTO dto) { 
+        public new async Task<BookShowDTO> AddAsync(BookCreateDTO dto)
+        {
 
             var transaction = await _unitOfWork.StartTransactionAsync();
 
             using (transaction)
             {
-                Book book = BookCreateDTO.BookCreateDTOToBook(dto); 
+                Book book = BookCreateDTO.BookCreateDTOToBook(dto);
                 await _unitOfWork.Repository<Book>().AddAsync(book);
 
                 IEnumerable<Author> authorsToAdd = await _unitOfWork.Repository<Author>().GetAllAsync(author => dto.AuthorIDs.Contains(author.Id), true, author => author.Entity);
@@ -77,18 +73,21 @@ namespace LibraryManagementSystemV2.Services
                     await _unitOfWork.Repository<AuthorBook>().AddAsync(AuthorBook.AuthorAndBookToAuthorBook(author, book));
                 }
 
-                foreach (var newAuthor in dto.NewAuthors)  
+                if (dto.NewAuthors != null)
                 {
-                    Entity entity = Entity.CreateEntity(newAuthor.Entity.FirstName, newAuthor.Entity.LastName);
-                    await _unitOfWork.Repository<Entity>().AddAsync(entity);
+                    foreach (var newAuthor in dto.NewAuthors.Select(newAuthor => newAuthor.Entity))
+                    {
+                        Entity entity = Entity.CreateEntity(newAuthor.FirstName, newAuthor.LastName);
+                        await _unitOfWork.Repository<Entity>().AddAsync(entity);
 
-                    Author author = Author.CreateAuthorFromEntity(entity);
-                    await _unitOfWork.Repository<Author>().AddAsync(author);
+                        Author author = Author.CreateAuthorFromEntity(entity);
+                        await _unitOfWork.Repository<Author>().AddAsync(author);
 
-                    await _unitOfWork.Repository<AuthorBook>().AddAsync(AuthorBook.AuthorAndBookToAuthorBook(author, book));
+                        await _unitOfWork.Repository<AuthorBook>().AddAsync(AuthorBook.AuthorAndBookToAuthorBook(author, book));
+                    }
                 }
 
-                await _unitOfWork.SaveChangesAsync(); 
+                await _unitOfWork.SaveChangesAsync();
                 BookShowDTO resultantBook = await GetByIdAsync(book.Id);
 
                 await transaction.CommitAsync();
@@ -96,7 +95,7 @@ namespace LibraryManagementSystemV2.Services
             }
         }
 
-        public async Task<BookShowDTO> UpdateAsync(long id, BookUpdateDTO dto)
+        public new async Task<BookShowDTO> UpdateAsync(long id, BookUpdateDTO dto)
         {
 
             if (!_unitOfWork.Repository<Book>().Exists(book => book.Id == id))  
@@ -140,24 +139,20 @@ namespace LibraryManagementSystemV2.Services
                         await _unitOfWork.Repository<AuthorBook>().AddAsync(authorBook); 
                     }
 
-                    if (dto.NewAuthors is null)
+                    if (dto.NewAuthors is not null)
                     {
-                        await _unitOfWork.SaveChangesAsync(); 
-                        
-                    } 
+                        foreach (var newAuthor in dto.NewAuthors)
+                        {
+                            Entity entity = Entity.CreateEntity(newAuthor.Entity.FirstName, newAuthor.Entity.LastName);
+                            await _unitOfWork.Repository<Entity>().AddAsync(entity);
 
 
-                    foreach (var newAuthor in dto.NewAuthors)
-                    {
-                        Entity entity = Entity.CreateEntity(newAuthor.Entity.FirstName, newAuthor.Entity.LastName); 
-                        await _unitOfWork.Repository<Entity>().AddAsync(entity);
+                            Author author = Author.CreateAuthorFromEntity(entity);
+                            await _unitOfWork.Repository<Author>().AddAsync(author);
 
-
-                        Author author = Author.CreateAuthorFromEntity(entity);
-                        await _unitOfWork.Repository<Author>().AddAsync(author);
-
-                        AuthorBook authorBook = AuthorBook.AuthorAndBookToAuthorBook(author, bookUpdated);
-                        await _unitOfWork.Repository<AuthorBook>().AddAsync(authorBook);
+                            AuthorBook authorBook = AuthorBook.AuthorAndBookToAuthorBook(author, bookUpdated);
+                            await _unitOfWork.Repository<AuthorBook>().AddAsync(authorBook);
+                        }
                     }
 
 

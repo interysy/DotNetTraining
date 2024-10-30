@@ -1,5 +1,6 @@
 ﻿using LibraryManagementSystemV2.Contexts;
 using LibraryManagementSystemV2.Models;
+using LibraryManagementSystemV2.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagementSystemV2.Repositories

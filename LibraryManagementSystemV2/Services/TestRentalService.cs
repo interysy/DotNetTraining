@@ -5,7 +5,7 @@ using LibraryManagementSystemV2.DTOs.NewFolder1;
 using LibraryManagementSystemV2.DTOs.RentalDTOs;
 using LibraryManagementSystemV2.DTOs.RenterDTOs;
 using LibraryManagementSystemV2.Models;
-using LibraryManagementSystemV2.Repositories;
+using LibraryManagementSystemV2.Repositories.Interfaces;
 using LibraryManagementSystemV2.Services.GenericServiceMappings;
 using LibraryManagementSystemV2.Services.GenericServices;
 using LibraryManagementSystemV2.Services.Interfaces;
@@ -72,6 +72,8 @@ namespace LibraryManagementSystemV2.Services
             }
 
             Renter? renter = await _unitOfWork.Repository<Renter>().GetByIdAsync(rentalWithCount.RenterId, renter => renter.Entity);
+            if (renter is null) { throw new RenterNotFoundException("Cannot find renter with the most rentals."); } 
+
             RenterShowDTO renterShow = RenterShowDTO.RenterToRenterShowDTO(renter);
             IEnumerable<Rental> rentals = await _unitOfWork.Repository<Rental>().GetAllAsync(rental => rental.RenterId == rentalWithCount.RenterId, true, rental => rental.Book);
 

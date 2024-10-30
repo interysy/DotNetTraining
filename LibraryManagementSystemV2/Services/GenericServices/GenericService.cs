@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using Humanizer;
-using LibraryManagementSystemV2.Repositories;
+using LibraryManagementSystemV2.Repositories.Interfaces;
 using LibraryManagementSystemV2.Services.Interfaces;
-using System.Linq.Expressions;
 
 namespace LibraryManagementSystemV2.Services.GenericServices
 {
@@ -12,14 +10,8 @@ namespace LibraryManagementSystemV2.Services.GenericServices
         where TCreateDto : class
         where TUpdateDto : class
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-
-        public GenericService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+        
+        public GenericService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) {}
 
 
         public async Task<TShowDto> AddAsync(TCreateDto dto)

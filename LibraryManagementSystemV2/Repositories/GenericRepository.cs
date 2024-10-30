@@ -1,6 +1,7 @@
 ﻿using LibraryManagementSystemV2.Contexts;
 using LibraryManagementSystemV2.DTOs.NewFolder1;
 using LibraryManagementSystemV2.Models;
+using LibraryManagementSystemV2.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query;
@@ -64,7 +65,7 @@ namespace LibraryManagementSystemV2.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> where = null, bool tracked = true, params Expression<Func<T, object>>[] includes)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? where = null, bool tracked = true, params Expression<Func<T, object>>[] includes)
         {
             IQueryable<T> query = _dbSet;
 
@@ -107,7 +108,7 @@ namespace LibraryManagementSystemV2.Repositories
             _context.RemoveRange(toRemove);
         }
 
-        public bool Exists(Expression<Func<T, bool>> expression = null) {
+        public bool Exists(Expression<Func<T, bool>> expression) { 
             return _dbSet.Any<T>(expression);
         }
 

@@ -13,10 +13,10 @@ using Microsoft.Extensions.Hosting;
 using LibraryManagementSystemV2.Services.GenericServiceMappings;
 using LibraryManagementSystemV2.Services.GenericServices;
 using LibraryManagementSystemV2.Services.Interfaces;
+using LibraryManagementSystemV2.Repositories.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
-var databaseName = "LibraryManagmentSystem";
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
@@ -41,7 +41,6 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
-//builder.Services.AddDbContext<LibraryManagementContext>();
 builder.Services.AddDbContext<LibraryManagementContext>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

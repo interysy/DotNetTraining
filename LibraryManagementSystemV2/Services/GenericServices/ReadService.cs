@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LibraryManagementSystemV2.Repositories;
+using LibraryManagementSystemV2.Repositories.Interfaces;
 using LibraryManagementSystemV2.Services.Interfaces;
 
 namespace LibraryManagementSystemV2.Services.GenericServices

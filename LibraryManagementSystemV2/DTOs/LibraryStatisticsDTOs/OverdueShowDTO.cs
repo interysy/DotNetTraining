@@ -5,7 +5,6 @@ namespace LibraryManagementSystemV2.DTOs.LibraryStatisticsDTOs
 {
     public class OverdueShowDTO : RentalShowDTO
     {
-        public required Guid Id { get; set; }
 
         public required long BookId { get; set; }
         public required string Name { get; set; }
