@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using Serilog;
 using LibraryManagementSystemV2.Services.GenericServiceMappings;
+using LibraryManagementSystemV2.Models;
 
 namespace LibraryManagementSystemV2.Controllers
 {
@@ -55,7 +56,7 @@ namespace LibraryManagementSystemV2.Controllers
         public async Task<ActionResult<BookShowDTO>> PostBook(BookCreateDTO bookDTO)
         {
             BookShowDTO bookShowDTO = await _service.AddAsync(bookDTO);
-            return Ok(bookShowDTO);
+            return CreatedAtAction(nameof(PostBook), new { id = bookShowDTO.Id }, bookShowDTO);
 
         }
 
