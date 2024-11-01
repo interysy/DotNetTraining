@@ -10,12 +10,11 @@ namespace LibraryManagementSystemV2.Contexts
         protected readonly IConfiguration Configuration;  
         private readonly string ConnectionStringProperty = "ConnectionString:DevDatabase";
 
-        public LibraryManagementContext() { }
-        public LibraryManagementContext(IConfiguration configuration)
+        public LibraryManagementContext(IConfiguration configuration, DbContextOptions<LibraryManagementContext>? options = null) : base(options ?? new DbContextOptions<LibraryManagementContext>())
         { 
 
             Configuration = configuration;
-        }
+        } 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,7 +23,6 @@ namespace LibraryManagementSystemV2.Contexts
                 optionsBuilder.UseSqlite(Configuration[ConnectionStringProperty]);
             }
         }
-
         public DbSet<Rental> Rentals { get; set; } = null!;
         public DbSet<Author> Authors { get; set; } = null!;
         public DbSet<Entity> Entities { get; set; } = null!;

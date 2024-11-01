@@ -110,7 +110,13 @@ namespace LibraryManagementSystemV2.Services
                 try
                 {
                     Book bookUpdated = BookUpdateDTO.BookUpdateDTOToBook(dto, id);
-                    _unitOfWork.Repository<Book>().SetEntryStateToModified(bookUpdated);
+                    //_unitOfWork.Repository<Book>().SetEntryStateToModified(bookUpdated);  
+
+
+                    Book book = await _unitOfWork.Repository<Book>().GetByIdAsync(id);
+                    book.Name = bookUpdated.Name;
+
+                    await _unitOfWork.Repository<Book>().UpdateAsync(book); 
 
                     IEnumerable<AuthorBook> bookAuthors = await _unitOfWork.Repository<AuthorBook>().GetAllAsync(authorBook => authorBook.BookId == id,
                                                                                                                  true,

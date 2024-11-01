@@ -14,6 +14,7 @@ using LibraryManagementSystemV2.Services.GenericServiceMappings;
 using LibraryManagementSystemV2.Services.GenericServices;
 using LibraryManagementSystemV2.Services.Interfaces;
 using LibraryManagementSystemV2.Repositories.Interfaces;
+using LibraryManagementSystemV2.Scheduled_Tasks;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +43,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<LibraryManagementContext>();
+//builder.Services.AddSingleton<GenerateOverdueRentalsReport>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -50,9 +52,13 @@ var configuration = builder.Configuration;
 
 
 var logger = LoggerSetup.SetUpLogger(configuration);
-builder.Host.UseSerilog(logger);
+builder.Host.UseSerilog(logger); 
 
-var app = builder.Build();
+//HangfireSetup.ConfigureHangfire(builder); 
+
+var app = builder.Build(); 
+
+//HangfireSetup.AddHangfireDashboard(app);
 
 if (app.Environment.IsDevelopment())
 {
